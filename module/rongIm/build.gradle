@@ -32,4 +32,6 @@ dependencies {
     api project(':module:rongIm:IMKit')
     api project(':module:rongIm:IMLib')
     api project(':module:rongIm:RedPacket')
+
+    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
 }

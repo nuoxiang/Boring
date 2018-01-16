@@ -26,6 +26,12 @@ dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     api project(':common')
 
-    api 'cn.bmob.android:bmob-sdk:3.5.5'
+    api('cn.bmob.android:bmob-sdk:3.5.5@aar') {
+        exclude(module: 'libs/gson-2.6.2.jar')
+        exclude(module: 'libs/okhttp-3.3.1.jar')
+        exclude(module: 'libs/okio-1.7.0.jar')
+        exclude(module: 'libs/rxandroid-1.2.0.jar')
+        exclude(module: 'libs/rxjava-1.1.6.jar')
+    }
     api 'cn.bmob.android:http-legacy:1.0'
 }
