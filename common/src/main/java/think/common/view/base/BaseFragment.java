@@ -61,11 +61,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends QMUIFragment
 
     }
 
-    /**
-     * 初始化
-     */
-    protected abstract void initView();
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -141,6 +136,13 @@ public abstract class BaseFragment<T extends BasePresenter> extends QMUIFragment
     }
 
     /**
+     * 创建Presenter
+     *
+     * @return
+     */
+    protected abstract T newPresenter();
+
+    /**
      * 返回布局id
      *
      * @return
@@ -149,11 +151,9 @@ public abstract class BaseFragment<T extends BasePresenter> extends QMUIFragment
     protected abstract int getLayout();
 
     /**
-     * 创建Presenter
-     *
-     * @return
+     * 初始化
      */
-    protected abstract T newPresenter();
+    protected abstract void initView();
 
     /**
      * 得到 presenter

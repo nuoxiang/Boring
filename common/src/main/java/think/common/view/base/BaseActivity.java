@@ -9,6 +9,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import com.qmuiteam.qmui.arch.QMUIFragmentActivity;
 import com.qmuiteam.qmui.widget.QMUITopBar;
@@ -39,6 +40,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends QMUIFragment
     private Unbinder mUnBinder;
     private QMUITipDialog loadingDialog;
     private QMUITopBar mTopBar;
+    private FrameLayout mContent;
 
     @Override
     protected int getContextViewId() {
@@ -58,7 +60,12 @@ public abstract class BaseActivity<T extends BasePresenter> extends QMUIFragment
         onCreated(savedInstanceState);
 
         if (getLayout() != 0) {
-            View view = LayoutInflater.from(this).inflate(getLayout(), null);
+            View view = LayoutInflater.from(this).inflate(R.layout.include_base_layout, null);
+            mTopBar = view.findViewById(R.id.topbar);
+            mContent = view.findViewById(R.id.fl_content);
+            mContent.addView(LayoutInflater.from(this).inflate(getLayout(), null));
+            view.setFitsSystemWindows(translucentFull());
+            mUnBinder = ButterKnife.bind(this, view);
             getFragmentContainer().addView(view);
         }
 
@@ -67,7 +74,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends QMUIFragment
             presenter.attachView(this);
         }
 
-        mUnBinder = ButterKnife.bind(this);
         initView(savedInstanceState);
     }
 
@@ -77,6 +83,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends QMUIFragment
      * @return
      */
     protected boolean isPortrait() {
+        return true;
+    }
+
+    /**
+     * 是否延伸到顶部
+     *
+     * @return
+     */
+    protected boolean translucentFull() {
         return true;
     }
 
@@ -135,9 +150,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends QMUIFragment
      * @return
      */
     public QMUITopBar getTopBar() {
-        if (mTopBar == null) {
-            mTopBar = getFragmentContainer().findViewById(R.id.topbar);
-        }
         return mTopBar;
     }
 
