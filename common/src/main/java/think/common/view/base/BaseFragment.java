@@ -7,10 +7,11 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-import com.qmuiteam.qmui.arch.QMUIFragment;
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.LifecycleTransformer;
@@ -30,7 +31,7 @@ import think.common.util.KeyBoardUtil;
  * @date 2018/1/16 下午4:07
  */
 
-public abstract class BaseFragment<T extends BasePresenter> extends QMUIFragment implements BaseView, LifecycleProvider<FragmentEvent> {
+public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseView, LifecycleProvider<FragmentEvent> {
     private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
 
     private T presenter;
@@ -42,9 +43,12 @@ public abstract class BaseFragment<T extends BasePresenter> extends QMUIFragment
 
     private QMUITopBar mTopBar;
 
+    @Nullable
     @Override
-    protected View onCreateView() {
-        view = LayoutInflater.from(getContext()).inflate(getLayout(), null);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (view == null) {
+            view = inflater.inflate(getLayout(), container, false);
+        }
         mUnBinder = ButterKnife.bind(this, view);
         initFirst();
         if (isFirst && getUserVisibleHint()) {

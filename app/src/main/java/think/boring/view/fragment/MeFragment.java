@@ -25,9 +25,4 @@ public class MeFragment extends BaseFragment {
     protected void initView() {
 
     }
-
-    @Override
-    protected boolean canDragBack() {
-        return false;
-    }
 }
