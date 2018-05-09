@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 
-import com.github.mzule.activityrouter.annotation.Router;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUITabSegment;
 
@@ -19,14 +18,12 @@ import think.boring.R;
 import think.boring.view.fragment.FindFragment;
 import think.boring.view.fragment.HomeFragment;
 import think.boring.view.fragment.MeFragment;
-import think.common.router.RouterList;
 import think.common.view.base.BaseActivity;
 import think.common.view.base.BasePresenter;
 
 /**
  * @author think
  */
-@Router(RouterList.Main.MAIN)
 public class MainActivity extends BaseActivity {
 
     @BindView(R.id.view_pager)

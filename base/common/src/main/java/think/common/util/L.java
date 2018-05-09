@@ -2,7 +2,7 @@ package think.common.util;
 
 import android.util.Log;
 
-import think.common.engine.EngineManger;
+import think.common.constant.AppInit;
 
 /**
  * @author think
@@ -12,20 +12,20 @@ import think.common.engine.EngineManger;
 public class L {
     private static final String TAG = "========";
 
-    public static void E(String tag, String message) {
-        if (EngineManger.DEBUG) {
+    public static void e(String tag, String message) {
+        if (AppInit.DEBUG) {
             Log.e(tag, message);
         }
     }
 
-    public static void E(String message) {
-        if (EngineManger.DEBUG) {
-            E(TAG, message);
+    public static void e(String message) {
+        if (AppInit.DEBUG) {
+            e(TAG, message);
         }
     }
 
-    public static void E(Exception e) {
-        if (EngineManger.DEBUG) {
+    public static void e(Exception e) {
+        if (AppInit.DEBUG) {
             e.printStackTrace();
         }
     }

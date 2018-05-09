@@ -222,10 +222,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public void showNotice(int type, String notice) {
         switch (type) {
             case ERROR_NETWORK:
-                DialogUtil.showText(QMUITipDialog.Builder.ICON_TYPE_FAIL, "网络错误");
+                DialogUtil.showText(this, QMUITipDialog.Builder.ICON_TYPE_FAIL, "网络错误");
                 break;
             default:
-                DialogUtil.showText(QMUITipDialog.Builder.ICON_TYPE_FAIL, notice);
+                DialogUtil.showText(this, QMUITipDialog.Builder.ICON_TYPE_FAIL, notice);
                 break;
         }
     }

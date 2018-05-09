@@ -3,7 +3,6 @@ apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
@@ -11,11 +10,14 @@ android {
 
         applicationId "think.boring"
 
-        multiDexEnabled true
-
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
     }
 //    signingConfigs {
 //        release {
@@ -52,13 +54,12 @@ android {
         }
 
     }
-    packagingOptions {
-        exclude 'META-INF/rxjava.properties'
-    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
@@ -67,12 +68,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':base:common')
+    api project(':base:commonService')
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    annotationProcessor 'com.github.mzule.activityrouter:compiler:1.1.7'
-
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
 }

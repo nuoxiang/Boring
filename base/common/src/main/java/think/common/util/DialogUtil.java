@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 
-import think.common.engine.EngineManger;
-
 /**
  * @author think
  * @date 2018/1/15 下午10:29
@@ -86,19 +84,19 @@ public class DialogUtil {
     /**
      * 自动消失的提示框
      *
-     * @param iconType
      * @param msg
      */
-    public static void showText(@QMUITipDialog.Builder.IconType int iconType, String msg) {
+    public static void showText(Context context, @QMUITipDialog.Builder.IconType int iconType, String msg) {
         if (qmuiTipDialog != null && qmuiTipDialog.isShowing()) {
             qmuiTipDialog.dismiss();
         }
-        qmuiTipDialog = new QMUITipDialog.Builder(EngineManger.getInstance().getContext())
+        qmuiTipDialog = new QMUITipDialog.Builder(context)
                 .setIconType(iconType)
                 .setTipWord(msg)
                 .create();
+        qmuiTipDialog.setCancelable(false);
         qmuiTipDialog.show();
-        RxUtil.timer(1500, aLong -> {
+        RxUtil.timer(1500, i -> {
             if (qmuiTipDialog != null && qmuiTipDialog.isShowing()) {
                 qmuiTipDialog.dismiss();
                 qmuiTipDialog = null;
@@ -106,7 +104,11 @@ public class DialogUtil {
         });
     }
 
-    public static void showText(String msg) {
-        showText(QMUITipDialog.Builder.ICON_TYPE_NOTHING, msg);
+    public static void showInfoText(Context context, String msg) {
+        showText(context, QMUITipDialog.Builder.ICON_TYPE_INFO, msg);
+    }
+
+    public static void showFailText(Context context, String msg) {
+        showText(context, QMUITipDialog.Builder.ICON_TYPE_FAIL, msg);
     }
 }

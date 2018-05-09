@@ -2,12 +2,15 @@ package think.common.util;
 
 import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-import think.common.engine.EngineManger;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import think.common.constant.AppInit;
 
 /**
  * @author think
@@ -23,15 +26,11 @@ public class RxUtil {
      * @return
      */
     public static <T> Observable<T> createData(final T t) {
-        return Observable.create(new Observable.OnSubscribe<T>() {
+        return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
-            public void call(Subscriber<? super T> subscriber) {
-                try {
-                    subscriber.onNext(t);
-                    subscriber.onCompleted();
-                } catch (Exception e) {
-                    subscriber.onError(e);
-                }
+            public void subscribe(ObservableEmitter<T> emitter) throws Exception {
+                emitter.onNext(t);
+                emitter.onComplete();
             }
         });
     }
@@ -42,11 +41,11 @@ public class RxUtil {
      * @param <T>
      * @return
      */
-    public static <T> Observable.Transformer<T, T> rxSchedulerHelper() {
-        return new Observable.Transformer<T, T>() {
+    public static <T> ObservableTransformer<T, T> rxSchedulerHelper() {
+        return new ObservableTransformer<T, T>() {
             @Override
-            public Observable<T> call(Observable<T> observable) {
-                return observable.subscribeOn(Schedulers.io())
+            public ObservableSource<T> apply(Observable<T> upstream) {
+                return upstream.subscribeOn(Schedulers.io())
                         .unsubscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
             }
@@ -57,16 +56,15 @@ public class RxUtil {
      * 等待几毫秒执行任务
      *
      * @param seconds
-     * @param action1
+     * @param consumer
      */
-    public static void timer(int seconds, Action1<Long> action1) {
-        Observable.timer(seconds, TimeUnit.MILLISECONDS).compose(RxUtil.rxSchedulerHelper()).subscribe(action1, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                if (EngineManger.DEBUG) {
-                    throwable.printStackTrace();
-                }
-            }
-        });
+    public static void timer(int seconds, Consumer<Long> consumer) {
+        Observable.timer(seconds, TimeUnit.MILLISECONDS)
+                .compose(rxSchedulerHelper())
+                .subscribe(consumer, throwable -> {
+                    if (AppInit.DEBUG) {
+                        throwable.printStackTrace();
+                    }
+                });
     }
 }

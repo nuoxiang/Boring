@@ -1,12 +1,11 @@
 ext {
     android = [compileSdkVersion: 27,
-               buildToolsVersion: "26.0.2",
                minSdkVersion    : 16,
                targetSdkVersion : 27,
                versionCode      : 1,
                versionName      : "1.0.0"]
 
-    supportVersion = "27.0.2"
+    supportVersion = "27.1.1"
 
     dependencies = ["appcompat-v7"       : "com.android.support:appcompat-v7:${supportVersion}",
                     "design"             : "com.android.support:design:${supportVersion}",
