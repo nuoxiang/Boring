@@ -1,6 +1,3 @@
-include ':app', ':common'
+include ':app', ':base:common'
 
 include ':routerAPT:routerLib', ':routerAPT:routerApt'
-
-include ':module:rongIm', ':module:rongIm:CallKit', ':module:rongIm:CallLib', ':module:rongIm:IMKit',
-        ':module:rongIm:IMLib', ':module:rongIm:RedPacket', ':module:bmob'
