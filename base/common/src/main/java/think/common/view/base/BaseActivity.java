@@ -10,8 +10,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.widget.FrameLayout;
 
 import com.qmuiteam.qmui.widget.QMUITopBar;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
@@ -34,14 +32,12 @@ import think.common.util.KeyBoardUtil;
  * @date 2018/1/15 下午5:22
  */
 
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseView, LifecycleProvider<ActivityEvent> {
+public abstract class BaseActivity<T extends IPresenter> extends AppCompatActivity implements IView, LifecycleProvider<ActivityEvent> {
     private final BehaviorSubject<ActivityEvent> lifecycleSubject = BehaviorSubject.create();
 
     private T presenter;
     private Unbinder mUnBinder;
     private QMUITipDialog loadingDialog;
-    private QMUITopBar mTopBar;
-    private FrameLayout mContent;
 
     @Override
     @CallSuper
@@ -56,11 +52,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         onCreated(savedInstanceState);
 
         if (getLayout() != 0) {
-            setContentView(R.layout.include_base_layout);
-            mTopBar = findViewById(R.id.topbar);
-            mContent = findViewById(R.id.fl_content);
-            mContent.addView(LayoutInflater.from(this).inflate(getLayout(), null));
-            mUnBinder = ButterKnife.bind(this, mContent);
+            setContentView(getLayout());
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -69,9 +61,10 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
         this.presenter = newPresenter();
         if (presenter != null) {
-            presenter.attachView(this);
+            presenter.attachView(this, lifecycleSubject);
         }
 
+        mUnBinder = ButterKnife.bind(this);
         initView(savedInstanceState);
     }
 
@@ -133,26 +126,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         overridePendingTransition(R.anim.slide_still, R.anim.slide_out_right);
     }
 
-    /**
-     * 返回topbar
-     *
-     * @return
-     */
-    public QMUITopBar getTopBar() {
-        return mTopBar;
-    }
-
-    public void setTopBarTitle(String title, boolean isLeftBack) {
-        getTopBar().setTitle(title);
+    public void setTopBarTitle(QMUITopBar topbar, String title, boolean isLeftBack) {
+        topbar.setTitle(title);
         if (isLeftBack) {
-            getTopBar().addLeftBackImageButton().setOnClickListener(v -> {
+            topbar.addLeftBackImageButton().setOnClickListener(v -> {
                 back();
             });
         }
     }
 
-    public void setTopBarTitle(String title) {
-        setTopBarTitle(title, true);
+    public void setTopBarTitle(QMUITopBar topbar, String title) {
+        topbar.setTitle(title);
     }
 
     @Override
@@ -208,6 +192,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             return;
         }
         loadingDialog = DialogUtil.newLoadingDialog(this);
+        loadingDialog.setCancelable(false);
         loadingDialog.show();
     }
 

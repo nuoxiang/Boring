@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme" parent="QMUI.Compat">
         <item name="android:windowBackground">@color/qmui_config_color_white</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@style/activity_fade_in_out</item>
+
+        <item name="qmui_topbar_height">44dp</item>
+
+        <item name="QMUITopBarStyle">@style/AppTopBar</item>
     </style>
 
     <style name="activity_fade_in_out" parent="android:Animation.Activity">
@@ -13,5 +18,11 @@
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+    </style>
+
+    <style name="AppTopBar" parent="QMUI.TopBar">
+        <item name="qmui_topbar_bg_color">@color/app_color_blue</item>
+        <item name="qmui_topbar_title_color">@color/qmui_config_color_white</item>
+        <item name="qmui_topbar_title_text_size">14sp</item>
     </style>
 </resources>

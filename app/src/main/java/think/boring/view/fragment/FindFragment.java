@@ -2,7 +2,7 @@ package think.boring.view.fragment;
 
 import think.boring.R;
 import think.common.view.base.BaseFragment;
-import think.common.view.base.BasePresenter;
+import think.common.view.base.IPresenter;
 
 /**
  * @author think
@@ -12,7 +12,7 @@ import think.common.view.base.BasePresenter;
 public class FindFragment extends BaseFragment {
 
     @Override
-    protected BasePresenter newPresenter() {
+    protected IPresenter newPresenter() {
         return null;
     }
 

@@ -16,9 +16,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions {
-        exclude 'META-INF/services/javax.annotation.processing.Processor'
-    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -33,9 +31,7 @@ dependencies {
     api rootProject.ext.dependencies["support-annotations"]
     api rootProject.ext.dependencies["support-v4"]
 
-    api 'com.android.support:multidex:1.0.3'
-
-    api('com.qmuiteam:qmui:1.1.0') {
+    api('com.qmuiteam:qmui:1.1.2') {
         exclude(group: 'com.android.support')
     }
 

@@ -31,7 +31,7 @@ import think.common.util.KeyBoardUtil;
  * @date 2018/1/16 下午4:07
  */
 
-public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements BaseView, LifecycleProvider<FragmentEvent> {
+public abstract class BaseFragment<T extends IPresenter> extends Fragment implements IView, LifecycleProvider<FragmentEvent> {
     private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
 
     private T presenter;
@@ -40,8 +40,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
     private boolean isFirst = true;
 
     private Unbinder mUnBinder;
-
-    private QMUITopBar mTopBar;
 
     @Nullable
     @Override
@@ -135,7 +133,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
 
         this.presenter = newPresenter();
         if (presenter != null) {
-            presenter.attachView(this);
+            presenter.attachView(this, lifecycleSubject);
         }
     }
 
@@ -267,28 +265,16 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment imp
         }
     }
 
-    /**
-     * 返回topbar
-     *
-     * @return
-     */
-    public QMUITopBar getTopBar() {
-        if (mTopBar == null) {
-            mTopBar = view.findViewById(R.id.topbar);
-        }
-        return mTopBar;
-    }
-
-    public void setTopBarTitle(String title, boolean isLeftBack) {
-        getTopBar().setTitle(title);
+    public void setTopBarTitle(QMUITopBar topbar, String title, boolean isLeftBack) {
+        topbar.setTitle(title);
         if (isLeftBack) {
-            getTopBar().addLeftBackImageButton().setOnClickListener(v -> {
+            topbar.addLeftBackImageButton().setOnClickListener(v -> {
                 back();
             });
         }
     }
 
-    public void setTopBarTitle(String title) {
-        setTopBarTitle(title, true);
+    public void setTopBarTitle(QMUITopBar topbar, String title) {
+        topbar.setTitle(title);
     }
 }

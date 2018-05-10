@@ -7,8 +7,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.qmuiteam.qmui.util.QMUIResHelper;
 import com.qmuiteam.qmui.widget.QMUITabSegment;
+import com.qmuiteam.qmui.widget.QMUITopBar;
+import com.think.common.lib.router.Routers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +22,20 @@ import think.boring.view.fragment.FindFragment;
 import think.boring.view.fragment.HomeFragment;
 import think.boring.view.fragment.MeFragment;
 import think.common.view.base.BaseActivity;
-import think.common.view.base.BasePresenter;
+import think.common.view.base.IPresenter;
 
 /**
  * @author think
  */
+@Route(path = Routers.App.MAIN)
 public class MainActivity extends BaseActivity {
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     @BindView(R.id.tabs)
     QMUITabSegment tabs;
+    @BindView(R.id.topbar)
+    QMUITopBar topbar;
 
     private List<Fragment> fragmentList = new ArrayList<>();
 
@@ -39,13 +45,13 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected BasePresenter newPresenter() {
+    protected IPresenter newPresenter() {
         return null;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setTopBarTitle("....", false);
+        setTopBarTitle(topbar, "....");
 
         initTabs();
 

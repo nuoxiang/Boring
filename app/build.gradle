@@ -10,6 +10,8 @@ android {
 
         applicationId "think.boring"
 
+        multiDexEnabled true
+
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
 

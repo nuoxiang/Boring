@@ -1,8 +1,11 @@
 package think.boring.view.fragment;
 
+import android.widget.Button;
+
+import butterknife.BindView;
 import think.boring.R;
 import think.common.view.base.BaseFragment;
-import think.common.view.base.BasePresenter;
+import think.common.view.base.IPresenter;
 
 /**
  * @author think
@@ -11,8 +14,11 @@ import think.common.view.base.BasePresenter;
 
 public class HomeFragment extends BaseFragment {
 
+    @BindView(R.id.btn)
+    Button btn;
+
     @Override
-    protected BasePresenter newPresenter() {
+    protected IPresenter newPresenter() {
         return null;
     }
 

@@ -7,7 +7,7 @@ import android.content.Context;
  * @date 2018/1/15 下午5:14
  */
 
-public interface BaseView {
+public interface IView {
     /**
      * 显示进度条
      */

@@ -1,20 +1,29 @@
 package think.common.view.base;
 
+import io.reactivex.subjects.BehaviorSubject;
+
 /**
  * @author think
- * @date 2018/1/15 下午5:18
+ * @date 2018/5/10 下午2:22
  */
 
-public interface BasePresenter<T extends BaseView> {
-    /**
-     * 绑定
-     *
-     * @param view
-     */
-    void attachView(T view);
+public class BasePresenter<T extends IView> implements IPresenter<T> {
+    protected T mView;
+    protected BehaviorSubject behaviorSubject;
 
-    /**
-     * 解绑
-     */
-    void detachView();
+    @Override
+    public void attachView(T view, BehaviorSubject behaviorSubject) {
+        this.mView = view;
+        this.behaviorSubject = behaviorSubject;
+    }
+
+    @Override
+    public void detachView() {
+        this.mView = null;
+        this.behaviorSubject = null;
+    }
+
+    protected boolean checkNull() {
+        return mView != null && behaviorSubject != null;
+    }
 }
