@@ -8,6 +8,8 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -30,6 +32,8 @@ dependencies {
     api rootProject.ext.dependencies["recyclerview-v7"]
     api rootProject.ext.dependencies["support-annotations"]
     api rootProject.ext.dependencies["support-v4"]
+
+    api 'com.android.support:multidex:1.0.3'
 
     api('com.qmuiteam:qmui:1.1.2') {
         exclude(group: 'com.android.support')

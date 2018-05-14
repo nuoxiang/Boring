@@ -10,51 +10,56 @@ android {
 
         applicationId "think.boring"
 
-        multiDexEnabled true
-
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]
+                arguments = [moduleName: project.getName()]
             }
         }
     }
-//    signingConfigs {
-//        release {
-//            try {
-//                Properties properties = new Properties()
-//                InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
-//                properties.load(inputStream)
-//
-//                def SIGN_ALIAS = properties.getProperty('SIGN_ALIAS')
-//                def SIGN_ALIAS_PWD = properties.getProperty('SIGN_ALIAS_PWD')
-//                def SING_PATH = properties.getProperty('SING_PATH')
-//                def SIGN_PWD = properties.getProperty('SIGN_PWD')
-//
-//                keyAlias SIGN_ALIAS
-//                keyPassword SIGN_ALIAS_PWD
-//                storeFile file(SING_PATH)
-//
-//                storePassword SIGN_PWD
-//                v2SigningEnabled true
-//            }
-//            catch (ex) {
-//                throw new Exception("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties")
-//            }
-//        }
-//    }
+
+    signingConfigs {
+        release {
+            try {
+                Properties properties = new Properties()
+                InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+
+                properties.load(inputStream)
+
+                def SIGN_ALIAS = properties.getProperty('SIGN_ALIAS')
+                def SIGN_ALIAS_PWD = properties.getProperty('SIGN_ALIAS_PWD')
+                def SIGN_PATH = properties.getProperty('SIGN_PATH')
+                def SIGN_PWD = properties.getProperty('SIGN_PWD')
+
+                if (SIGN_PATH == null) {
+                    return
+                }
+
+                keyAlias SIGN_ALIAS
+                keyPassword SIGN_ALIAS_PWD
+                storeFile file(SIGN_PATH)
+
+                storePassword SIGN_PWD
+                v2SigningEnabled true
+            }
+            catch (ex) {
+                throw new Exception("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties")
+            }
+        }
+    }
+
     buildTypes {
         release {
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
         debug {
 //            signingConfig signingConfigs.release
         }
-
     }
 
     compileOptions {
@@ -65,6 +70,10 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+
+    dexOptions {
+        preDexLibraries = false
     }
 }
 
