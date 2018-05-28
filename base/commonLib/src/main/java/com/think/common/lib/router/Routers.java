@@ -11,4 +11,10 @@ public class Routers {
         private static final String BASE = "/app";
         public static final String MAIN = BASE + "/main";
     }
+
+    public static class Service {
+        private static final String BASE = "/service";
+        public static final String RETROFIT = BASE + "/retrofit";
+        public static final String OKHTTP = BASE + "/okhttp";
+    }
 }

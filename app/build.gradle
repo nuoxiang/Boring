@@ -18,6 +18,8 @@ android {
                 arguments = [moduleName: project.getName()]
             }
         }
+
+        multiDexKeepProguard file('multidex.pro')
     }
 
     signingConfigs {
